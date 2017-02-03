@@ -1,0 +1,17 @@
+.todo-header {
+  &__container {
+    margin-top: 15px;
+    display: inline-block;
+    width: 100%;
+  }
+
+  &__project-count {
+    float: right;
+  }
+
+  &__input {
+    margin: 10px;
+    height: 15px;
+    min-width: 200px;
+  }
+}

@@ -1,0 +1,9 @@
+.todo-card {
+  &__container {
+    border: 2px solid grey;
+    padding: 20px 15px;
+    margin: 0;
+    background-color: white;
+    cursor: 'move';
+  }
+}
