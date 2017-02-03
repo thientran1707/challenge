@@ -20,6 +20,19 @@ class TicTacToe {
   static String player2;
   static int occupiedCells = 0;
 
+  static boolean isValidIndex(int index) {
+    return index >= 0 && index < boardSize;
+  }
+
+  static void initBoard() {
+    board = new int[boardSize][boardSize];
+    for (int i = 0; i < boardSize; i++) {
+      for (int j = 0; j < boardSize; j++) {
+        board[i][j] = -1;
+      }
+    }
+  }
+
   static void printBoard() {
     for (int i = 0; i < boardSize; i++) {
       for (int j = 0; j < boardSize; j++) {
@@ -48,15 +61,6 @@ class TicTacToe {
     System.out.println();
   }
 
-  static void initBoard() {
-    board = new int[boardSize][boardSize];
-    for (int i = 0; i < boardSize; i++) {
-      for (int j = 0; j < boardSize; j++) {
-        board[i][j] = -1;
-      }
-    }
-  }
-
   static void readInput(Scanner sc) {
     // read size;
     while (true) {
@@ -75,43 +79,6 @@ class TicTacToe {
     System.out.printf(ASK_NAME_MESSAGE, 2);
     player2 = sc.next();
     System.out.println();
-  }
-
-  static boolean processPlayer(Scanner sc, String playerName, int player) {
-    String[] cellStrings = {"'x'", "'o'"};
-    int playerIndex;
-    
-    System.out.printf(ASK_MOVE_MESSAGE, playerName, cellStrings[player]);
-    playerIndex = sc.nextInt();
-
-    // check if the index entered is valid
-    while (!turn(playerIndex, player)) {
-      printBoard();
-      System.out.printf(ASK_VALID_MOVE_MESSAGE, playerName, cellStrings[player]);
-      playerIndex = sc.nextInt();
-    }
-
-    printBoard();
-    if (occupiedCells == boardSize * boardSize) {
-      System.out.println(TIE_MESSAGE);
-      return true;
-    }
-
-    // check if player 1 win
-    if (checkWin(playerIndex, player)) {
-      System.out.printf(WIN_MESSAGE, playerName);
-      return true;
-    }
-
-    return false;
-  }
-
-  static boolean checkWin(int index, int player) {
-    int row = (index - 1) / boardSize;
-    int col = (index - 1) % boardSize;
-
-    return checkHorizontalAndVertical(row, col, player, 0) || checkHorizontalAndVertical(row, col, player, 1)
-      || checkMainDiagonal(row, col, player) || checkAntiDiagonal(row, col, player);
   }
 
   // mode 0 is horizontal, mode 1 is vertical
@@ -185,7 +152,7 @@ class TicTacToe {
     return false; 
   }
 
-  static boolean turn(int index, int player) {
+  static boolean takeTurn(int index, int player) {
     int row = (index - 1) / boardSize;
     int col = (index - 1) % boardSize;
     
@@ -198,8 +165,41 @@ class TicTacToe {
     return true;
   }
 
-  static boolean isValidIndex(int index) {
-    return index >= 0 && index < boardSize;
+  static boolean checkWin(int index, int player) {
+    int row = (index - 1) / boardSize;
+    int col = (index - 1) % boardSize;
+
+    return checkHorizontalAndVertical(row, col, player, 0) || checkHorizontalAndVertical(row, col, player, 1)
+      || checkMainDiagonal(row, col, player) || checkAntiDiagonal(row, col, player);
+  }
+
+  static boolean processPlayer(Scanner sc, String playerName, int player) {
+    String[] cellStrings = {"'x'", "'o'"};
+    int playerIndex;
+    
+    System.out.printf(ASK_MOVE_MESSAGE, playerName, cellStrings[player]);
+    playerIndex = sc.nextInt();
+
+    // check if the index entered is valid
+    while (!takeTurn(playerIndex, player)) {
+      printBoard();
+      System.out.printf(ASK_VALID_MOVE_MESSAGE, playerName, cellStrings[player]);
+      playerIndex = sc.nextInt();
+    }
+
+    printBoard();
+    if (occupiedCells == boardSize * boardSize) {
+      System.out.println(TIE_MESSAGE);
+      return true;
+    }
+
+    // check if player win
+    if (checkWin(playerIndex, player)) {
+      System.out.printf(WIN_MESSAGE, playerName);
+      return true;
+    }
+
+    return false;
   }
 
   static void run() {

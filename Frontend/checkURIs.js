@@ -141,11 +141,6 @@ function checkQuery(query1, query2) {
 var uri1;
 var uri2;
 
-/*
- * uri1: http://abc.com:80/~smith/home.html
- * uri2: http://ABC.com/%7Esmith/home.html
- * result: true
- */
 uri1 = 'http://abc.com:80/~smith/home.html';
 uri2 = 'http://ABC.com/%7Esmith/home.html';
 console.log(checkURIs(uri1, uri2)); // true

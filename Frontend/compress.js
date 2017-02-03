@@ -37,13 +37,18 @@ function compress(str) {
 var input;
 var compressedString;
 
-// input: aaaabbaaaababbbcccccccccccc
-// return value: a4b2a4b1a1b3c12
-
 input = 'aaaabbaaaababbbcccccccccccc';
 compressedString = compress('aaaabbaaaababbbcccccccccccc');
-console.log('Is correct? ', compressedString === 'a4b2a4b1a1b3c12');
+console.log(compressedString === 'a4b2a4b1a1b3c12');
 
 input = 'aaaaaaa';
 compressedString = compress(input);
-console.log('Is correct? ', compressedString === 'a7');
+console.log(compressedString === 'a7');
+
+input = 'abc';
+compressedString = compress(input);
+console.log(compressedString === 'a1b1c1');
+
+input = '';
+compressedString = compress(input);
+console.log(compressedString === '');
