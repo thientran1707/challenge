@@ -23,7 +23,7 @@ class Container extends Component {
  
     return connectDropTarget(
       <div className="todo-container__main">
-        <div className="todo-container__header" style={{padding: '0 10px'}}>
+        <div className="todo-container__header">
           <div className="todo__inline">
             <div className="todo__label todo-container__label">{name}</div>
           </div>

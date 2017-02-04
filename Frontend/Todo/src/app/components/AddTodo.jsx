@@ -14,7 +14,7 @@ class AddTodo extends Component {
       <div className="todo-header__container">
         <div className="todo-header__input todo__inline">
           <label className="todo__label">add project</label>
-          <input className="todo-header__input" style={{height: '15px', minWidth: '200px'}} onKeyPress={this.handleKeyPress}/>
+          <input className="todo-header__input" onKeyPress={this.handleKeyPress}/>
         </div>
         <div className="todo-header__project-count todo__inline">
           <div className="todo__label">TOTAL</div>
