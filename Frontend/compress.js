@@ -32,7 +32,7 @@ function compress(str) {
 
   return compressedString;
 }
-
+/*
 // test for compress
 var input;
 var compressedString;
@@ -52,3 +52,4 @@ console.log(compressedString === 'a1b1c1');
 input = '';
 compressedString = compress(input);
 console.log(compressedString === '');
+*/

@@ -13,6 +13,9 @@ function checkURIs(uri1, uri2) {
   }
   
   var uriParamsLength = uri1Params.length;
+  if (uriParamsLength < 3) {
+    return false;
+  }
 
   // check scheme, this is case insensitive
   if (uri1Params[0].toLowerCase() !== uri2Params[0].toLowerCase()) {
@@ -26,7 +29,12 @@ function checkURIs(uri1, uri2) {
     return false;
   }
 
-  // compare path
+  // if there is only hostname
+  if (uriParamsLength === 3) {
+    return true;
+  }
+
+  // compare path, uriParamsLength > 3
   for (var i = 3; i < uri1Params.length - 1; i++) {
     if (uri1Params[i] !== uri2Params[i]) {
       return false;
@@ -46,7 +54,8 @@ function checkURIs(uri1, uri2) {
   if (lastPath1Arr.length > 1) {
     return checkQuery(lastPath1Arr[1], lastPath2Arr[1]);
   }
-
+  
+  // pass all check
   return true;
 }
 
@@ -65,7 +74,6 @@ function simplifyPath(uri) {
 function checkHost(host1, host2) {
   var host1Params = host1.split('@');
   var host2Params = host2.split('@');
-
   if (host1Params.length !== host2Params.length) {
     return false;
   }
@@ -94,7 +102,7 @@ function checkHost(host1, host2) {
   if (hostName2.indexOf(':') === -1) {
     hostName2 += ':80';
   }
-
+  
   return hostName1.toLowerCase() === hostName2.toLowerCase();
 }
 
@@ -137,6 +145,7 @@ function checkQuery(query1, query2) {
   return true;
 }
 
+/*
 // test for checkURIs
 var uri1;
 var uri2;
@@ -160,3 +169,12 @@ console.log(checkURIs(uri1, uri2)); // false
 uri1 = 'http://abc.com/foo.html?a=1&b=2&a=3';
 uri2 = 'http://abc.com/foo.html?a=1&a=3&b=2';
 console.log(checkURIs(uri1, uri2)); // true
+
+uri1 = 'http://ABc.com';
+uri2 = 'https://abc.com';
+console.log(checkURIs(uri1, uri2)); // false
+
+uri1 = 'http://abc.com';
+uri2 = 'http://ABC.com';
+console.log(checkURIs(uri1, uri2)); // true
+*/
