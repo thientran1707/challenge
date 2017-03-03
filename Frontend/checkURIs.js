@@ -11,7 +11,7 @@ function checkURIs(uri1, uri2) {
   if (uri1Params.length !== uri2Params.length) {
     return false;
   }
-  
+
   var uriParamsLength = uri1Params.length;
   if (uriParamsLength < 3) {
     return false;
@@ -64,11 +64,35 @@ function checkURIs(uri1, uri2) {
  * @param uri: string
  */
 function simplifyPath(uri) {
-  var oneDirUp = /[^\/]*\/\.\.\//g;
+  // get from host name after wards
+  var index = getKthOccurrence(uri, '/', 3);
+  var subUri = uri.substring(index);
+
+  var oneDirUp = /[^\/]*\/\.\.\//;
   var sameDir = /\.\//g;
 
-  return uri.replace(oneDirUp, '').replace(sameDir, ''); 
+  while (oneDirUp.test(subUri)) {
+    subUri = subUri.replace(oneDirUp, '');
+  }
+
+  subUri = subUri.replace(sameDir, '');
+  return uri.substring(0, index) + subUri;
+
 }
+
+function getKthOccurrence(string, character, k) {
+  for (var i = 0; i < string.length; i++) {
+    if (string[i] === character) {
+      k--;
+    }
+
+    if (k === 0) {
+      return i;
+    }
+  }
+
+  return -1;
+} 
 
 // check if 2 hosts are the same
 function checkHost(host1, host2) {
@@ -145,12 +169,19 @@ function checkQuery(query1, query2) {
   return true;
 }
 
-/*
 // test for checkURIs
 var uri1;
 var uri2;
 
-uri1 = 'http://abc.com:80/~smith/home.html';
+uri1 = 'http://abc.com/drill/down/foo.html';
+uri2 = 'http://abc.com/drill/further/test1/test2/../../../down/./foo.html';
+console.log(checkURIs(uri1, uri2)); // true
+
+uri1 = 'http://abc.com/drill/down/foo.html';
+uri2 = 'http:/../abccom/drill/down/./foo.html';
+console.log(checkURIs(uri1, uri2)); // false
+
+/*uri1 = 'http://abc.com:80/~smith/home.html';
 uri2 = 'http://ABC.com/%7Esmith/home.html';
 console.log(checkURIs(uri1, uri2)); // true
 
@@ -176,5 +207,4 @@ console.log(checkURIs(uri1, uri2)); // false
 
 uri1 = 'http://abc.com';
 uri2 = 'http://ABC.com';
-console.log(checkURIs(uri1, uri2)); // true
-*/
+console.log(checkURIs(uri1, uri2)); // true*/
